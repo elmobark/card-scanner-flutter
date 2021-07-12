@@ -36,7 +36,7 @@ class CardScannerCameraActivity : AppCompatActivity() {
   private var cameraSelector: CameraSelector? = null
   private var textRecognizer: TextRecognizer? = null
   private var analysisUseCase: ImageAnalysis? = null
-  private lateinit var cardScannerOptions: CardScannerOptions
+  private var cardScannerOptions: CardScannerOptions? = null
   private lateinit var cameraExecutor: ExecutorService
   lateinit var animator: ObjectAnimator
   lateinit var scannerLayout: View
@@ -153,9 +153,9 @@ class CardScannerCameraActivity : AppCompatActivity() {
                 returnIntent.putExtra(SCAN_RESULT, cardDetails)
                 setResult(Activity.RESULT_OK, returnIntent)
                 this.finish()
-              }, onCardScanFailed = {
+              }) {
                 onBackPressed()
-              }))
+              })
             }
     cameraProvider!!.bindToLifecycle( /* lifecycleOwner= */this, cameraSelector!!, analysisUseCase)
   }

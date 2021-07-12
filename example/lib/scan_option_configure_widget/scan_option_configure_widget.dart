@@ -1,15 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 import 'package:card_scanner/card_scanner.dart';
 
 class OptionConfigureWidget extends StatefulWidget {
-  final void Function(CardScanOptions scanOptions) onScanOptionChanged;
-  final CardScanOptions initialOptions;
+  final void Function(CardScanOptions scanOptions)? onScanOptionChanged;
+  final CardScanOptions? initialOptions;
 
-  const OptionConfigureWidget({Key key, @required this.onScanOptionChanged, this.initialOptions}) : super(key: key);
+  const OptionConfigureWidget({Key? key, @required this.onScanOptionChanged, this.initialOptions}) : super(key: key);
 
   @override
   _OptionConfigureWidgetState createState() => _OptionConfigureWidgetState();
@@ -39,7 +38,7 @@ class _OptionConfigureWidgetState extends State<OptionConfigureWidget> {
   void initState() {
     if (widget.initialOptions != null) {
       final options = widget.initialOptions;
-      scanExpiryDate = options.scanExpiryDate;
+      scanExpiryDate = options!.scanExpiryDate;
       scanCardHolderName = options.scanCardHolderName;
       initialScansToDrop = options.initialScansToDrop;
       validCardsToScanBeforeFinishingScan = options.validCardsToScanBeforeFinishingScan;
@@ -159,7 +158,7 @@ class _OptionConfigureWidgetState extends State<OptionConfigureWidget> {
 
   @override
   void setState(fn) {
-    widget.onScanOptionChanged(CardScanOptions(
+    widget.onScanOptionChanged!(CardScanOptions(
         possibleCardHolderNamePositions: possibleCardHolderNamePositions.toList(),
         cardHolderNameBlackListedWords: cardHolderNameBlackListedWords,
         enableDebugLogs: enableDebugLogs,
