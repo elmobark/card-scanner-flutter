@@ -7,7 +7,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -32,7 +31,7 @@ typealias onCardScanned = (cardDetails: CardDetails?) -> Unit
 typealias onCardScanFailed = () -> Unit
 
 class CardScannerCameraActivity : AppCompatActivity() {
-  private var previewUseCase: Preview? = null;
+  private var previewUseCase: Preview? = null
   private var cameraProvider: ProcessCameraProvider? = null
   private var cameraSelector: CameraSelector? = null
   private var textRecognizer: TextRecognizer? = null
@@ -49,12 +48,12 @@ class CardScannerCameraActivity : AppCompatActivity() {
     setContentView(R.layout.card_scanner_camera_activity)
     cardScannerOptions = intent.getParcelableExtra<CardScannerOptions>(CARD_SCAN_OPTIONS)
 
-    scannerLayout = findViewById(R.id.scannerLayout);
-    scannerBar = findViewById(R.id.scannerBar);
+    scannerLayout = findViewById(R.id.scannerLayout)
+    scannerBar = findViewById(R.id.scannerBar)
     backButton = findViewById(R.id.backButton)
-    supportActionBar?.hide();
+    supportActionBar?.hide()
 
-    val vto = scannerLayout.viewTreeObserver;
+    val vto = scannerLayout.viewTreeObserver
     backButton.setOnClickListener {
       finish()
     }
