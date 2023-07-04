@@ -30,7 +30,7 @@ data class CardScannerOptions(
           enableLuhnCheck = parcel.readByte() != 0.toByte(),
           cardScannerTimeOut = parcel.readInt(),
           enableDebugLogs = parcel.readByte() != 0.toByte(),
-          possibleCardHolderNamePositions = parcel.createStringArrayList()as List<String>
+          possibleCardHolderNamePositions = parcel.createStringArrayList() as List<String>
   )
 
   constructor(configMap: Map<String, String>) : this(

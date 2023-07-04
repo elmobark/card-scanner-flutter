@@ -42,6 +42,7 @@ class CardScannerCameraActivity : AppCompatActivity() {
   lateinit var scannerLayout: View
   lateinit var scannerBar: View
   lateinit var backButton: View
+  lateinit var cancelButton: View
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -51,6 +52,7 @@ class CardScannerCameraActivity : AppCompatActivity() {
     scannerLayout = findViewById(R.id.scannerLayout)
     scannerBar = findViewById(R.id.scannerBar)
     backButton = findViewById(R.id.backButton)
+    cancelButton = findViewById(R.id.cancelButton)
     supportActionBar?.hide()
 
     val vto = scannerLayout.viewTreeObserver
@@ -72,6 +74,10 @@ class CardScannerCameraActivity : AppCompatActivity() {
       }
     })
 
+    cancelButton.setOnClickListener {
+      finish()
+    }
+
     cameraExecutor = Executors.newSingleThreadExecutor()
 
     // Request camera permissions
@@ -92,7 +98,7 @@ class CardScannerCameraActivity : AppCompatActivity() {
       try {
         bindAllCameraUseCases()
       } catch (exc: Exception) {
-        debugLog("Use case binding failed : $exc", cardScannerOptions)
+        debugLog("Use case binding failed : $exc", cardScannerOptions!!)
       }
     }, ContextCompat.getMainExecutor(this))
   }
@@ -143,19 +149,19 @@ class CardScannerCameraActivity : AppCompatActivity() {
     textRecognizer?.close()
     textRecognizer = TextRecognition.getClient()
 
-    debugLog("card scanner options : $cardScannerOptions", cardScannerOptions)
+    debugLog("card scanner options : $cardScannerOptions", cardScannerOptions!!)
     val analysisUseCase = ImageAnalysis.Builder().build()
             .also {
-              it.setAnalyzer(cameraExecutor, CardScanner(cardScannerOptions, { cardDetails ->
-                debugLog("Card recognized : $cardDetails", cardScannerOptions)
+              it.setAnalyzer(cameraExecutor, CardScanner(cardScannerOptions!!, { cardDetails ->
+                debugLog("Card recognized : $cardDetails", cardScannerOptions!!)
 
                 val returnIntent: Intent = Intent()
                 returnIntent.putExtra(SCAN_RESULT, cardDetails)
                 setResult(Activity.RESULT_OK, returnIntent)
                 this.finish()
-              }) {
+              }, onCardScanFailed = {
                 onBackPressed()
-              })
+              }))
             }
     cameraProvider!!.bindToLifecycle( /* lifecycleOwner= */this, cameraSelector!!, analysisUseCase)
   }

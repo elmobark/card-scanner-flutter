@@ -15,30 +15,28 @@ import com.nateshmbhat.card_scanner.scanner_core.models.CardScannerOptions
 import com.nateshmbhat.card_scanner.scanner_core.optimizer.CardDetailsScanOptimizer
 
 
-class CardScanner(private val scannerOptions: CardScannerOptions?, private val onCardScanned: onCardScanned, private val onCardScanFailed: onCardScanFailed) : ImageAnalysis.Analyzer {
-  val singleFrameCardScanner: SingleFrameCardScanner = SingleFrameCardScanner(scannerOptions!!)
-  val cardDetailsScanOptimizer: CardDetailsScanOptimizer = CardDetailsScanOptimizer(scannerOptions!!)
+class CardScanner(private val scannerOptions: CardScannerOptions, private val onCardScanned: onCardScanned, private val onCardScanFailed: onCardScanFailed) : ImageAnalysis.Analyzer {
+  val singleFrameCardScanner: SingleFrameCardScanner = SingleFrameCardScanner(scannerOptions)
+  val cardDetailsScanOptimizer: CardDetailsScanOptimizer = CardDetailsScanOptimizer(scannerOptions)
   var scanCompleted: Boolean = false
 
   init {
-    if (scannerOptions != null) {
-      if (scannerOptions.cardScannerTimeOut > 0) {
-        val timer = object : CountDownTimer((scannerOptions.cardScannerTimeOut!! * 1000).toLong(), 1000) {
-          override fun onTick(millisUntilFinished: Long) {}
+    if (scannerOptions.cardScannerTimeOut > 0) {
+      val timer = object : CountDownTimer((scannerOptions.cardScannerTimeOut * 1000).toLong(), 1000) {
+        override fun onTick(millisUntilFinished: Long) {}
 
-          override fun onFinish() {
-            debugLog("Card scanner timeout reached", scannerOptions);
-            val cardDetails = cardDetailsScanOptimizer.getOptimalCardDetails()
-            if (cardDetails != null) {
-              finishCardScanning(cardDetails)
-            } else {
-              onCardScanFailed()
-            }
-            debugLog("Finishing card scan with card details : ${cardDetails}", scannerOptions);
+        override fun onFinish() {
+          debugLog("Card scanner timeout reached", scannerOptions);
+          val cardDetails = cardDetailsScanOptimizer.getOptimalCardDetails()
+          if (cardDetails != null) {
+            finishCardScanning(cardDetails)
+          } else {
+            onCardScanFailed()
           }
+          debugLog("Finishing card scan with card details : ${cardDetails}", scannerOptions);
         }
-        timer.start()
       }
+      timer.start()
     }
   }
 
@@ -60,17 +58,15 @@ class CardScanner(private val scannerOptions: CardScannerOptions?, private val o
                 val cardDetails = singleFrameCardScanner.scanSingleFrame(visionText)
                         ?: return@addOnSuccessListener;
 
-                if (scannerOptions != null) {
-                  if (scannerOptions.enableDebugLogs) {
-                    debugLog("----------------------------------------------------", scannerOptions)
-                    for (block in visionText.textBlocks) {
-                            debugLog("visionText: TextBlock ============================", scannerOptions)
-                            debugLog("visionText : ${block.text}", scannerOptions)
-                    }
-                    debugLog("----------------------------------------------------", scannerOptions)
-
-                    debugLog("Card details : $cardDetails", scannerOptions)
+                if (scannerOptions.enableDebugLogs) {
+                  debugLog("----------------------------------------------------", scannerOptions)
+                  for (block in visionText.textBlocks) {
+                    debugLog("visionText: TextBlock ============================", scannerOptions)
+                    debugLog("visionText : ${block.text}", scannerOptions)
                   }
+                  debugLog("----------------------------------------------------", scannerOptions)
+
+                  debugLog("Card details : $cardDetails", scannerOptions)
                 }
                 cardDetailsScanOptimizer.processCardDetails(cardDetails)
                 if (cardDetailsScanOptimizer.isReadyToFinishScan()) {

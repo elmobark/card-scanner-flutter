@@ -1,93 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.camera.view.PreviewView
-        android:id="@+id/cameraView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="48dp"
+        android:background="#ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/back"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="فحص البطاقة"
+            android:textSize="20dp"
+            android:textColor="#ff191919"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-        <RelativeLayout
+        <androidx.camera.view.PreviewView
+            android:id="@+id/cameraView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/semitransparent">
-
-            <Button
-                android:id="@+id/backButton"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="28dp"
-                android:layout_width="20dp"
-                android:background="@drawable/ic_back_arrow"
-                android:layout_height="17dp"
-                android:textSize="24sp"/>
-
-
-        </RelativeLayout>
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <View
-                android:id="@+id/left"
-                android:layout_width="20dp"
-                android:layout_height="260dp"
-                android:background="@color/semitransparent" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/semitransparent">
 
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="6sp"
+                    android:text="الرجاء ادخال البطاقة داخل المربع لمسح البيانات"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+
+            </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/scannerLayout"
-                android:layout_width="0dp"
-                android:layout_height="260dp"
-                android:layout_weight="1"
-                android:background="@drawable/ic_scan_border"
-                android:minHeight="800dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <View
-                    android:id="@+id/scannerBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_anim_rectangle" />
+                    android:id="@+id/left"
+                    android:layout_width="20dp"
+                    android:layout_height="260dp"
+                    android:background="@color/semitransparent" />
+
+
+                <LinearLayout
+                    android:id="@+id/scannerLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="260dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_scan_border"
+                    android:minHeight="800dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:id="@+id/scannerBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/ic_anim_rectangle" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/right"
+                    android:layout_width="20dp"
+                    android:layout_height="260dp"
+                    android:background="@color/semitransparent" />
+
             </LinearLayout>
 
-            <View
-                android:id="@+id/right"
-                android:layout_width="20dp"
-                android:layout_height="260dp"
-                android:background="@color/semitransparent" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/semitransparent">
+
+                <Button
+                    android:id="@+id/cancelButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="45dp"
+                    android:background="@drawable/btn_background"
+                    android:gravity="center"
+                    android:lineSpacingExtra="6sp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:text="أغلاق"
+                    android:textAlignment="center"
+                    android:textColor="#0075ff"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/semitransparent" >
+    </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:lineSpacingExtra="6sp"
-            android:layout_centerInParent="true"
-            android:text="Scan your card to proceed"
-            android:textAlignment="center"
-            android:textColor="#f0f0f5"
-            android:textSize="12sp" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
